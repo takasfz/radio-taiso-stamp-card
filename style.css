@@ -1,0 +1,464 @@
+/* =========================================================
+   ラジオ体操 出席カード — 20年前の夏の朝みたいなレトロ印刷風
+   ========================================================= */
+:root {
+  --ink-red: #c73e2e;      /* 朱肉・タイトルの赤 */
+  --ink-navy: #2b4a7d;     /* 罫線・土曜の紺 */
+  --ink-black: #3a3a3a;    /* 印刷の黒(少し褪せた) */
+  --paper: #f8f1dc;        /* 日焼けした画用紙 */
+  --paper-dark: #efe4c6;
+  --sunday: #c73e2e;
+  --saturday: #2b6db3;
+  --today-bg: #fff3b0;
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "BIZ UDGothic", sans-serif;
+  color: var(--ink-black);
+  min-height: 100vh;
+  padding: 24px 12px 48px;
+  /* 朝の空色の背景 */
+  background:
+    radial-gradient(circle at 85% 8%, rgba(255, 214, 102, .55) 0 60px, transparent 62px),
+    linear-gradient(180deg, #aee1f5 0%, #cdeef8 45%, #f8e9c8 100%);
+  background-attachment: fixed;
+}
+
+/* ===== カード本体(紙) ===== */
+.card {
+  max-width: 860px;
+  margin: 0 auto;
+  background:
+    /* 紙の繊維っぽいノイズ */
+    repeating-linear-gradient(2deg, transparent 0 3px, rgba(140, 110, 60, .022) 3px 4px),
+    repeating-linear-gradient(92deg, transparent 0 4px, rgba(140, 110, 60, .022) 4px 5px),
+    var(--paper);
+  border: 4px solid var(--ink-red);
+  border-radius: 10px;
+  box-shadow:
+    0 1px 0 rgba(0,0,0,.05) inset,
+    4px 6px 0 rgba(60, 40, 20, .18),
+    0 12px 30px rgba(30, 50, 80, .25);
+  padding: 20px 22px 26px;
+  position: relative;
+}
+/* 二重罫線 */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1.5px solid var(--ink-red);
+  border-radius: 6px;
+  pointer-events: none;
+}
+/* 画鋲 */
+.card::after {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffd76e, #d9534f 55%, #8f2f2b);
+  box-shadow: 0 3px 4px rgba(0,0,0,.35);
+}
+
+/* ===== ヘッダー ===== */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 6px 4px 12px;
+  border-bottom: 3px double var(--ink-red);
+  position: relative;
+}
+
+.sun-mark {
+  flex: 0 0 108px;
+  height: 108px;
+  border-radius: 50%;
+  background:
+    repeating-conic-gradient(from 8deg, rgba(199, 62, 46, .16) 0deg 9deg, transparent 9deg 24deg),
+    radial-gradient(circle, #ffe9a8 0 58%, #ffd76e 72%, transparent 73%);
+  display: grid;
+  place-items: center;
+}
+.boy-svg { width: 86px; height: 95px; animation: boy-bounce 2.6s ease-in-out infinite; transform-origin: 50% 100%; }
+@keyframes boy-bounce {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(.97) translateY(1.5px); }
+}
+
+.title-block { flex: 1 1 auto; text-align: center; }
+.title-top {
+  margin: 0;
+  font-size: .95rem;
+  font-weight: 700;
+  letter-spacing: .35em;
+  color: var(--ink-navy);
+}
+.title-main {
+  margin: 2px 0 4px;
+  font-family: "Yusei Magic", "Zen Maru Gothic", sans-serif;
+  font-size: clamp(1.7rem, 5.4vw, 2.9rem);
+  letter-spacing: .08em;
+  color: var(--ink-red);
+  text-shadow: 2px 2px 0 rgba(199, 62, 46, .16);
+  line-height: 1.15;
+}
+.title-sub {
+  margin: 0;
+  display: inline-block;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--ink-navy);
+  border-top: 1px dashed var(--ink-navy);
+  border-bottom: 1px dashed var(--ink-navy);
+  padding: 2px 10px;
+  letter-spacing: .2em;
+}
+
+.name-block {
+  flex: 0 0 auto;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+.name-label {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .5em;
+  color: var(--ink-navy);
+  text-align: center;
+}
+.name-input {
+  width: 140px;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--ink-black);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--ink-navy);
+  outline: none;
+  padding: 2px 4px;
+}
+.name-input:focus { border-bottom-color: var(--ink-red); background: rgba(255, 243, 176, .5); }
+
+.notice {
+  text-align: center;
+  font-size: .85rem;
+  font-weight: 700;
+  margin: 12px auto 4px;
+  color: var(--ink-black);
+}
+.notice.closed { color: var(--ink-navy); }
+
+/* ===== 月カレンダー ===== */
+.months {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.month {
+  flex: 1 1 340px;
+  max-width: 400px;
+  border: 2.5px solid var(--ink-navy);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .35);
+  padding: 8px 8px 10px;
+}
+
+.month-title {
+  margin: 0 0 6px;
+  text-align: center;
+  font-family: "Yusei Magic", "Zen Maru Gothic", sans-serif;
+  font-size: 1.25rem;
+  color: #fffdf5;
+  background: var(--ink-navy);
+  border-radius: 5px;
+  padding: 3px 0;
+  letter-spacing: .3em;
+}
+.month-title .gatsu { font-size: .85rem; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.dow {
+  text-align: center;
+  font-size: .7rem;
+  font-weight: 900;
+  padding: 2px 0;
+  color: var(--ink-navy);
+}
+.dow.sun { color: var(--sunday); }
+.dow.sat { color: var(--saturday); }
+
+.day {
+  position: relative;
+  aspect-ratio: 1 / 1.12;
+  border: 1.5px solid rgba(43, 74, 125, .55);
+  border-radius: 5px;
+  background: rgba(255, 253, 245, .75);
+  padding: 0;
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: visible;
+}
+.day.empty { border: none; background: transparent; }
+
+.day-num {
+  font-size: .78rem;
+  font-weight: 900;
+  line-height: 1.35;
+  color: var(--ink-black);
+}
+.day.sun .day-num { color: var(--sunday); }
+.day.sat .day-num { color: var(--saturday); }
+
+.day.past { background: rgba(232, 226, 205, .6); }
+
+/* きょうのマス */
+.day.today {
+  background: var(--today-bg);
+  border: 2.5px solid var(--ink-red);
+  cursor: pointer;
+  animation: today-glow 1.6s ease-in-out infinite;
+  z-index: 2;
+}
+@keyframes today-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(199, 62, 46, .45); }
+  50% { box-shadow: 0 0 0 6px rgba(199, 62, 46, 0); }
+}
+.day.today.stamped { animation: none; cursor: default; }
+
+.today-badge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-4deg);
+  background: var(--ink-red);
+  color: #fffdf5;
+  font-size: .58rem;
+  font-weight: 900;
+  padding: 1px 7px;
+  border-radius: 99px;
+  letter-spacing: .12em;
+  white-space: nowrap;
+  z-index: 3;
+}
+
+/* マスの中のハンコ */
+.day-stamp {
+  position: absolute;
+  inset: 12% 4% 2% 4%;
+  display: grid;
+  place-items: center;
+  color: var(--ink-red);
+  pointer-events: none;
+}
+.day-stamp svg {
+  width: 92%;
+  height: 92%;
+  opacity: .92;
+  mix-blend-mode: multiply;
+}
+
+/* ===== フッター ===== */
+.card-footer {
+  margin-top: 18px;
+  border-top: 3px double var(--ink-red);
+  padding-top: 12px;
+  text-align: center;
+  position: relative;
+}
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin-bottom: 8px;
+}
+.stat {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.stat-label {
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--ink-navy);
+  letter-spacing: .15em;
+}
+.stat-value {
+  font-family: "Yusei Magic", sans-serif;
+  font-size: 1.9rem;
+  color: var(--ink-red);
+  line-height: 1;
+}
+.stat-unit { font-size: .8rem; font-weight: 700; }
+
+.deco-flowers {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin: 4px 0 6px;
+}
+.flower { width: 34px; height: 34px; }
+.flower:nth-child(2) { transform: rotate(14deg) scale(1.15); }
+.flower:nth-child(3) { transform: rotate(-10deg); }
+
+.footer-note {
+  font-size: .72rem;
+  color: #6b6250;
+  margin: 6px 0 10px;
+  line-height: 1.7;
+}
+
+.reset-btn {
+  font-family: inherit;
+  font-size: .72rem;
+  font-weight: 700;
+  color: #8a8171;
+  background: transparent;
+  border: 1.5px dashed #b0a68e;
+  border-radius: 99px;
+  padding: 4px 14px;
+  cursor: pointer;
+}
+.reset-btn:hover { color: var(--ink-red); border-color: var(--ink-red); }
+
+/* ===== スタンプ演出 ===== */
+.stamp-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.stamp-flying {
+  position: absolute;
+  color: var(--ink-red);
+  filter: drop-shadow(0 14px 10px rgba(0,0,0,.25));
+  animation: stamp-press .62s cubic-bezier(.22, 1.4, .36, 1) forwards;
+}
+.stamp-flying svg { width: 100%; height: 100%; }
+@keyframes stamp-press {
+  0%   { transform: translateY(-46vh) scale(2.6) rotate(-14deg); opacity: 0; }
+  38%  { opacity: 1; }
+  62%  { transform: translateY(0) scale(.9)  rotate(var(--rot)); }
+  78%  { transform: translateY(0) scale(1.06) rotate(var(--rot)); }
+  100% { transform: translateY(0) scale(1)   rotate(var(--rot)); opacity: 1; }
+}
+
+/* 着弾時の波紋 */
+.stamp-ripple {
+  position: absolute;
+  border: 3px solid var(--ink-red);
+  border-radius: 50%;
+  opacity: 0;
+  animation: ripple .5s ease-out .38s forwards;
+}
+@keyframes ripple {
+  0% { transform: scale(.4); opacity: .7; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+/* 「ポンッ!」 */
+.stamp-pon {
+  position: absolute;
+  font-family: "Yusei Magic", sans-serif;
+  font-size: 1.5rem;
+  color: var(--ink-red);
+  text-shadow: 1.5px 1.5px 0 #fffdf5;
+  opacity: 0;
+  white-space: nowrap;
+  animation: pon-pop .8s ease-out .4s forwards;
+}
+@keyframes pon-pop {
+  0% { transform: translate(-50%, 0) scale(.4) rotate(-8deg); opacity: 0; }
+  30% { transform: translate(-50%, -14px) scale(1.15) rotate(3deg); opacity: 1; }
+  100% { transform: translate(-50%, -34px) scale(1) rotate(-2deg); opacity: 0; }
+}
+
+/* 着弾時にカードを揺らす */
+.card.shake { animation: card-shake .3s ease-out; }
+@keyframes card-shake {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(4px) rotate(.2deg); }
+  60% { transform: translateY(-2px) rotate(-.15deg); }
+  100% { transform: translateY(0); }
+}
+
+/* 押したてのハンコはじわっと定着 */
+.day-stamp.fresh svg { animation: ink-settle .9s ease-out forwards; }
+@keyframes ink-settle {
+  0% { opacity: 1; }
+  100% { opacity: .92; }
+}
+
+/* もう押してあるマスをつついた時 */
+.day.wiggle { animation: wiggle .4s ease-in-out; }
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-3deg); }
+  75% { transform: rotate(3deg); }
+}
+
+/* ===== トースト ===== */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--ink-navy);
+  color: #fffdf5;
+  font-weight: 700;
+  font-size: .9rem;
+  padding: 10px 22px;
+  border-radius: 99px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.3);
+  opacity: 0;
+  transition: opacity .25s, transform .25s;
+  pointer-events: none;
+  z-index: 60;
+  max-width: 90vw;
+  text-align: center;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ===== レスポンシブ ===== */
+.sp-only { display: none; }
+@media (max-width: 640px) {
+  body { padding: 16px 8px 40px; }
+  .card { padding: 14px 10px 20px; }
+  .card-header { flex-wrap: wrap; justify-content: center; }
+  .sun-mark { flex-basis: 84px; height: 84px; }
+  .boy-svg { width: 66px; height: 73px; }
+  .title-block { flex-basis: calc(100% - 110px); }
+  .name-block { flex-basis: 100%; flex-direction: row; align-items: center; justify-content: center; gap: 10px; margin-top: 6px; }
+  .name-label { letter-spacing: .2em; }
+  .sp-only { display: inline; }
+  .sp-hide { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boy-svg, .day.today { animation: none; }
+}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ラジオ体操 出席カード</title>
+<meta name="description" content="夏休みの朝の思い出。ブラウザで遊べるラジオ体操出席カード。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yusei+Magic&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='42' fill='none' stroke='%23c73e2e' stroke-width='8'/><text x='50' y='66' font-size='44' text-anchor='middle' fill='%23c73e2e'>良</text></svg>">
+</head>
+<body>
+
+<!-- ===== SVG 素材(オリジナル描き下ろし) ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- ハンコのインクかすれ用フィルタ -->
+    <filter id="ink-rough">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5"/>
+      <feComponentTransfer><feFuncA type="gamma" amplitude="1" exponent="1.15" offset="-0.04"/></feComponentTransfer>
+    </filter>
+
+    <!-- ハンコその1: たいよう「たいへんよくできました」 -->
+    <g id="stamp-sun">
+      <g filter="url(#ink-rough)">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="4.5"/>
+        <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <g stroke="currentColor" stroke-width="3.5" stroke-linecap="round">
+          <line x1="50" y1="14" x2="50" y2="22"/><line x1="50" y1="60" x2="50" y2="68"/>
+          <line x1="27" y1="41" x2="34" y2="41"/><line x1="66" y1="41" x2="73" y2="41"/>
+          <line x1="34" y1="25" x2="39" y2="30"/><line x1="61" y1="30" x2="66" y2="25"/>
+          <line x1="34" y1="57" x2="39" y2="52"/><line x1="61" y1="52" x2="66" y2="57"/>
+        </g>
+        <circle cx="50" cy="41" r="13" fill="none" stroke="currentColor" stroke-width="3.5"/>
+        <circle cx="45.5" cy="39" r="1.8" fill="currentColor"/>
+        <circle cx="54.5" cy="39" r="1.8" fill="currentColor"/>
+        <path d="M45 44.5 Q50 48.5 55 44.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+        <text x="50" y="82" text-anchor="middle" font-size="10.5" fill="currentColor" font-family="'Zen Maru Gothic',sans-serif" font-weight="900">よくできました</text>
+      </g>
+    </g>
+
+    <!-- ハンコその2: ひまわり「がんばったね」 -->
+    <g id="stamp-flower">
+      <g filter="url(#ink-rough)">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="4.5"/>
+        <g fill="none" stroke="currentColor" stroke-width="3.2">
+          <ellipse cx="50" cy="23.5" rx="7" ry="10"/>
+          <ellipse cx="50" cy="56.5" rx="7" ry="10"/>
+          <ellipse cx="33.5" cy="40" rx="10" ry="7"/>
+          <ellipse cx="66.5" cy="40" rx="10" ry="7"/>
+          <ellipse cx="38" cy="28" rx="7.5" ry="7.5" transform="rotate(-45 38 28)"/>
+          <ellipse cx="62" cy="28" rx="7.5" ry="7.5" transform="rotate(45 62 28)"/>
+          <ellipse cx="38" cy="52" rx="7.5" ry="7.5" transform="rotate(45 38 52)"/>
+          <ellipse cx="62" cy="52" rx="7.5" ry="7.5" transform="rotate(-45 62 52)"/>
+        </g>
+        <circle cx="50" cy="40" r="9.5" fill="none" stroke="currentColor" stroke-width="3.2"/>
+        <circle cx="46.5" cy="38.5" r="1.6" fill="currentColor"/>
+        <circle cx="53.5" cy="38.5" r="1.6" fill="currentColor"/>
+        <path d="M46.5 43 Q50 46 53.5 43" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <text x="50" y="82" text-anchor="middle" font-size="11" fill="currentColor" font-family="'Zen Maru Gothic',sans-serif" font-weight="900">がんばったね</text>
+      </g>
+    </g>
+
+    <!-- ハンコその3: ほし「すごい!」 -->
+    <g id="stamp-star">
+      <g filter="url(#ink-rough)">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="4.5"/>
+        <path d="M50 16 L57.8 33.2 L76.5 35.3 L62.6 48.1 L66.4 66.6 L50 57.2 L33.6 66.6 L37.4 48.1 L23.5 35.3 L42.2 33.2 Z"
+              fill="none" stroke="currentColor" stroke-width="3.8" stroke-linejoin="round"/>
+        <circle cx="45" cy="41" r="1.8" fill="currentColor"/>
+        <circle cx="55" cy="41" r="1.8" fill="currentColor"/>
+        <path d="M44.5 47 Q50 51.5 55.5 47" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+        <text x="50" y="84" text-anchor="middle" font-size="13" fill="currentColor" font-family="'Zen Maru Gothic',sans-serif" font-weight="900">すごい!</text>
+      </g>
+    </g>
+
+    <!-- たいそう坊や(オリジナルキャラ) -->
+    <g id="taiso-boy">
+      <!-- 足 -->
+      <g stroke="#3a3a3a" stroke-width="7" stroke-linecap="round" fill="none">
+        <path d="M88 158 L74 192"/>
+        <path d="M112 158 L126 192"/>
+      </g>
+      <ellipse cx="70" cy="196" rx="11" ry="6" fill="#e8e4d8" stroke="#3a3a3a" stroke-width="3"/>
+      <ellipse cx="130" cy="196" rx="11" ry="6" fill="#e8e4d8" stroke="#3a3a3a" stroke-width="3"/>
+      <!-- 半ズボン -->
+      <path d="M80 132 L120 132 L124 160 L104 160 L100 148 L96 160 L76 160 Z" fill="#2f5da8" stroke="#3a3a3a" stroke-width="3" stroke-linejoin="round"/>
+      <!-- 腕(バンザイ) -->
+      <g stroke="#3a3a3a" stroke-width="7" stroke-linecap="round" fill="none">
+        <path d="M79 112 Q62 96 52 72"/>
+        <path d="M121 112 Q138 96 148 72"/>
+      </g>
+      <circle cx="50" cy="66" r="8" fill="#f7cfa8" stroke="#3a3a3a" stroke-width="3"/>
+      <circle cx="150" cy="66" r="8" fill="#f7cfa8" stroke="#3a3a3a" stroke-width="3"/>
+      <!-- 体(白シャツ+赤ライン) -->
+      <path d="M78 104 Q100 98 122 104 L120 136 Q100 141 80 136 Z" fill="#fffdf5" stroke="#3a3a3a" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M79.5 126 Q100 131 120.5 126" fill="none" stroke="#c73e2e" stroke-width="4"/>
+      <!-- 顔 -->
+      <circle cx="100" cy="72" r="30" fill="#f7cfa8" stroke="#3a3a3a" stroke-width="3"/>
+      <!-- 耳 -->
+      <circle cx="71" cy="74" r="6" fill="#f7cfa8" stroke="#3a3a3a" stroke-width="3"/>
+      <circle cx="129" cy="74" r="6" fill="#f7cfa8" stroke="#3a3a3a" stroke-width="3"/>
+      <!-- 帽子(白い体操帽) -->
+      <path d="M70 62 Q73 34 100 34 Q127 34 130 62 Q100 54 70 62 Z" fill="#fffdf5" stroke="#3a3a3a" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M66 62 Q100 52 134 62 L131 68 Q100 59 69 68 Z" fill="#c73e2e" stroke="#3a3a3a" stroke-width="2.5" stroke-linejoin="round"/>
+      <!-- 目・ほっぺ・口 -->
+      <path d="M86 74 Q89 70 92 74" fill="none" stroke="#3a3a3a" stroke-width="3" stroke-linecap="round"/>
+      <path d="M108 74 Q111 70 114 74" fill="none" stroke="#3a3a3a" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="84" cy="83" r="4.5" fill="#f5a09a" opacity="0.75"/>
+      <circle cx="116" cy="83" r="4.5" fill="#f5a09a" opacity="0.75"/>
+      <path d="M93 86 Q100 93 107 86" fill="none" stroke="#3a3a3a" stroke-width="3" stroke-linecap="round"/>
+    </g>
+
+    <!-- ひまわり(飾り) -->
+    <g id="deco-sunflower">
+      <g fill="#f2b705" stroke="#b8860b" stroke-width="1.5">
+        <ellipse cx="50" cy="26" rx="9" ry="16"/><ellipse cx="50" cy="74" rx="9" ry="16"/>
+        <ellipse cx="26" cy="50" rx="16" ry="9"/><ellipse cx="74" cy="50" rx="16" ry="9"/>
+        <ellipse cx="33" cy="33" rx="12" ry="9" transform="rotate(-45 33 33)"/>
+        <ellipse cx="67" cy="33" rx="12" ry="9" transform="rotate(45 67 33)"/>
+        <ellipse cx="33" cy="67" rx="12" ry="9" transform="rotate(45 33 67)"/>
+        <ellipse cx="67" cy="67" rx="12" ry="9" transform="rotate(-45 67 67)"/>
+      </g>
+      <circle cx="50" cy="50" r="16" fill="#7a4a1e" stroke="#5c3512" stroke-width="2"/>
+      <circle cx="50" cy="50" r="10" fill="none" stroke="#5c3512" stroke-width="1.5" stroke-dasharray="2 3"/>
+    </g>
+  </defs>
+</svg>
+
+<div class="card" id="card">
+  <!-- ===== ヘッダー ===== -->
+  <header class="card-header">
+    <div class="sun-mark" aria-hidden="true">
+      <svg viewBox="0 0 200 220" class="boy-svg"><use href="#taiso-boy"/></svg>
+    </div>
+    <div class="title-block">
+      <p class="title-top"><span id="year-label">2026年</span> なつやすみ</p>
+      <h1 class="title-main">ラジオ体操<br class="sp-only"> 出席カード</h1>
+      <p class="title-sub">はやおきは 三文の とく!</p>
+    </div>
+    <div class="name-block">
+      <span class="name-label">なまえ</span>
+      <input type="text" id="name-input" class="name-input" maxlength="12" placeholder="       ">
+    </div>
+  </header>
+
+  <p class="notice" id="notice">まいあさ ラジオたいそうを して、きょうの ますに ハンコを おしてもらおう!</p>
+
+  <!-- ===== カレンダー ===== -->
+  <main class="months" id="months"></main>
+
+  <!-- ===== あしあと ===== -->
+  <footer class="card-footer">
+    <div class="stats">
+      <div class="stat"><span class="stat-label">スタンプ</span><span class="stat-value" id="stat-total">0</span><span class="stat-unit">こ</span></div>
+      <div class="stat"><span class="stat-label">れんぞく</span><span class="stat-value" id="stat-streak">0</span><span class="stat-unit">日</span></div>
+    </div>
+    <div class="deco-flowers" aria-hidden="true">
+      <svg viewBox="0 0 100 100" class="flower"><use href="#deco-sunflower"/></svg>
+      <svg viewBox="0 0 100 100" class="flower"><use href="#deco-sunflower"/></svg>
+      <svg viewBox="0 0 100 100" class="flower sp-hide"><use href="#deco-sunflower"/></svg>
+    </div>
+    <p class="footer-note">たいそうが おわったら おうちのひとに みせましょう。<br>◎ このカードは このブラウザに ほぞんされます。</p>
+    <button class="reset-btn" id="reset-btn" type="button">カードを あたらしくする</button>
+  </footer>
+</div>
+
+<!-- スタンプ演出用オーバーレイ -->
+<div class="stamp-overlay" id="stamp-overlay" aria-hidden="true"></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
