@@ -8,6 +8,7 @@ import {
   yearLabel,
   pickPraise,
 } from "./src/logic.js";
+import { shareFileName, chooseShareMethod, captureCardImage } from "./src/share.js";
 
 (() => {
   "use strict";
@@ -282,6 +283,45 @@ import {
     buildCalendars();
     updateStats();
     showToast("あたらしい カードに なったよ!");
+  });
+
+  // ---- 画像シェア ----
+  $("#share-btn").addEventListener("click", async () => {
+    let canvas;
+    try {
+      canvas = await captureCardImage(document.getElementById("card"));
+    } catch (err) {
+      console.error(err);
+      showToast("がぞうを つくれなかったよ…");
+      return;
+    }
+
+    canvas.toBlob(async (blob) => {
+      if (!blob) return;
+      const file = new File([blob], shareFileName(YEAR), { type: "image/png" });
+      const method = chooseShareMethod(navigator, file);
+
+      if (method === "share") {
+        try {
+          // text は渡さない(iOS/macOS のシェアシートで画像が2枚扱いになる既知問題を避ける)
+          await navigator.share({ files: [file] });
+          return;
+        } catch (err) {
+          if (err && err.name === "AbortError") return; // シェアシートを閉じただけ
+          // シェアに失敗したらダウンロードに切りかえる
+        }
+      }
+
+      const url = URL.createObjectURL(file);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = shareFileName(YEAR);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      showToast("がぞうを ほぞんしたよ!");
+    }, "image/png");
   });
 
   // ---- トースト ----
