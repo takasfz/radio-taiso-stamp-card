@@ -1,4 +1,14 @@
 /* ラジオ体操 出席カード */
+import {
+  dateKey,
+  monthCells,
+  calcStreak,
+  pickStamp,
+  parseStoredData,
+  yearLabel,
+  pickPraise,
+} from "./src/logic.js";
+
 (() => {
   "use strict";
 
@@ -7,14 +17,6 @@
   const YEAR = now.getFullYear();
   const MONTHS = [7, 8];
   const DOW = ["日", "月", "火", "水", "木", "金", "土"];
-  const STAMP_KINDS = ["stamp-sun", "stamp-flower", "stamp-star"];
-  const PRAISES = [
-    "たいへん よくできました!",
-    "きょうも はやおき えらい!",
-    "いい あせ かいたね!",
-    "その ちょうし!",
-    "あしたも まってるよ!",
-  ];
 
   const STORAGE_KEY = `radio-taiso-card-${YEAR}`;
 
@@ -24,20 +26,11 @@
   const cardEl = $("#card");
   const toastEl = $("#toast");
 
-  const pad2 = (n) => String(n).padStart(2, "0");
-  const dateKey = (y, m, d) => `${y}-${pad2(m)}-${pad2(d)}`;
   const todayKey = dateKey(now.getFullYear(), now.getMonth() + 1, now.getDate());
 
   // ---- 保存データ ----
   function loadData() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const data = JSON.parse(raw);
-        if (data && typeof data === "object" && data.stamps) return data;
-      }
-    } catch (_) { /* 壊れていたら作り直す */ }
-    return { name: "", stamps: {} };
+    return parseStoredData(localStorage.getItem(STORAGE_KEY));
   }
   function saveData() {
     try {
@@ -55,7 +48,7 @@
   });
 
   // ---- 年表示(令和つき) ----
-  $("#year-label").textContent = `${YEAR}年(令和${YEAR - 2018}年)`;
+  $("#year-label").textContent = yearLabel(YEAR);
 
   // ---- カレンダー描画 ----
   function buildCalendars() {
@@ -79,18 +72,15 @@
         grid.appendChild(el);
       });
 
-      const first = new Date(YEAR, month - 1, 1);
-      const daysInMonth = new Date(YEAR, month, 0).getDate();
+      const { leading, days } = monthCells(YEAR, month);
 
-      for (let i = 0; i < first.getDay(); i++) {
+      for (let i = 0; i < leading; i++) {
         const pad = document.createElement("div");
         pad.className = "day empty";
         grid.appendChild(pad);
       }
 
-      for (let d = 1; d <= daysInMonth; d++) {
-        const key = dateKey(YEAR, month, d);
-        const dow = new Date(YEAR, month - 1, d).getDay();
+      for (const { d, dow, key } of days) {
         const cell = document.createElement("button");
         cell.type = "button";
         cell.className = "day" + (dow === 0 ? " sun" : dow === 6 ? " sat" : "");
@@ -151,17 +141,18 @@
     if (stamping) return;
     stamping = true;
 
-    const stamp = {
-      kind: STAMP_KINDS[Math.floor(Math.random() * STAMP_KINDS.length)],
-      rot: Math.round(Math.random() * 24 - 12),
-    };
+    const stamp = pickStamp();
+    // 状態の確定は演出より先に、同期的に行う
+    // (アニメーションが中断される環境でも保存が欠けないように)
+    data.stamps[key] = stamp;
+    saveData();
+    updateStats();
+
+    // ここから先は演出。done は必ず1回だけ呼ばれる
     playStampAnimation(cell, stamp, () => {
-      data.stamps[key] = stamp;
-      saveData();
       attachStamp(cell, stamp, true);
       cell.classList.add("stamped");
-      updateStats();
-      showToast(PRAISES[Math.floor(Math.random() * PRAISES.length)]);
+      showToast(pickPraise());
       stamping = false;
     });
   }
@@ -210,12 +201,18 @@
       cardEl.classList.add("shake");
     }, 380);
 
-    flying.addEventListener("animationend", () => {
+    // animationend と時間フォールバックの早い者勝ち(必ず1回だけ発火)
+    let finished = false;
+    const finish = () => {
+      if (finished) return;
+      finished = true;
       done();
       // 定着ハンコに切り替わったら飛んでいた方は消す
       requestAnimationFrame(() => flying.remove());
       setTimeout(() => { ripple.remove(); pon.remove(); }, 900);
-    }, { once: true });
+    };
+    flying.addEventListener("animationend", finish, { once: true });
+    setTimeout(finish, 900); // アニメーション時間(620ms)+余裕
   }
 
   // ---- 効果音(WebAudioで「ポンッ」) ----
@@ -260,16 +257,11 @@
   function updateStats() {
     const total = Object.keys(data.stamps).length;
     $("#stat-total").textContent = total;
-
-    // きょう(押していなければ昨日)から さかのぼって連続日数
-    let streak = 0;
-    const cursor = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    if (!data.stamps[todayKey]) cursor.setDate(cursor.getDate() - 1);
-    while (data.stamps[dateKey(cursor.getFullYear(), cursor.getMonth() + 1, cursor.getDate())]) {
-      streak++;
-      cursor.setDate(cursor.getDate() - 1);
-    }
-    $("#stat-streak").textContent = streak;
+    $("#stat-streak").textContent = calcStreak(data.stamps, {
+      y: now.getFullYear(),
+      m: now.getMonth() + 1,
+      d: now.getDate(),
+    });
   }
 
   // ---- 期間外の案内 ----
