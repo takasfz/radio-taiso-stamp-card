@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { shareFileName, chooseShareMethod, buildCardSvg } from "../src/share.js";
 
 describe("shareFileName", () => {
-  test("年入りのpngファイル名を作る", () => {
-    assert.equal(shareFileName(2026), "radio-taiso-card-2026.png");
+  test("年入りのjpgファイル名を作る", () => {
+    assert.equal(shareFileName(2026), "radio-taiso-card-2026.jpg");
   });
 });
 

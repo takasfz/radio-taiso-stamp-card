@@ -296,9 +296,10 @@ import { shareFileName, chooseShareMethod, captureCardImage } from "./src/share.
       return;
     }
 
+    // JPEG で書き出す(紙テクスチャの全画素ノイズで PNG は肥大化するため)
     canvas.toBlob(async (blob) => {
       if (!blob) return;
-      const file = new File([blob], shareFileName(YEAR), { type: "image/png" });
+      const file = new File([blob], shareFileName(YEAR), { type: "image/jpeg" });
       const method = chooseShareMethod(navigator, file);
 
       if (method === "share") {
@@ -321,7 +322,7 @@ import { shareFileName, chooseShareMethod, captureCardImage } from "./src/share.
       a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
       showToast("がぞうを ほぞんしたよ!");
-    }, "image/png");
+    }, "image/jpeg", 0.85);
   });
 
   // ---- トースト ----
